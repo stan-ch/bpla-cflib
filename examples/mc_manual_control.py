@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 This script show control Z when hovering by means of MotionCommander class.
@@ -31,10 +32,16 @@ def main():
 
         damn = curses.initscr()
         damn.nodelay(1)
-        curses.echo()
+        curses.noecho()
 
         # We take off when the commander is created
-        input("Press <RET> to take off. Z = 0.3m ")
+        print("\rStart motion commander:")
+        print("\r  u/d - up/down")
+        print("\r  l/r - left/right")
+        print("\r  f/b - forward/back")
+        print("\r  c/w - turn left/right 90 degrees")
+        print("\r  i/I - circle left/right 360 degrees")
+        print("\r  q - quit")
 
         with MotionCommander(scf) as mc:
             time.sleep(TIME_SEC)
@@ -57,8 +64,15 @@ def main():
                     mc.turn_right(CW_STEP)
                 elif c == ord('c'): # counter clockwise
                     mc.turn_left(CW_STEP)
+                elif c == ord('i'):
+                    mc.circle_left(0.3)
+                elif c == ord('I'):
+                    mc.circle_right(0.3)
                 elif c == ord('q'): # q - quit
                     break
+
+            curses.echo()
+            curses.endwin()
 
 if __name__ == '__main__':
     main()
